@@ -1,13 +1,39 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
+
 # Use a package of configuration called an orb.
 orbs:
   # Declare a dependency on the welcome-orb
   welcome: circleci/welcome-orb@0.4.1
+
+# Create a list of jobs
+jobs:
+  # Name the first job "print_hello"
+  print_hello:
+    # Use docker image for Node.js
+    docker:
+      - image: circleci/node:13.8.0
+    # Add step to print Hello
+    steps:
+      - run: echo "Hello"
+  
+  # Name the second job "print_world"
+  print_world:
+    # Use docker image for Node.js
+    docker:
+      - image: circleci/node:13.8.0
+    # Add step to print World
+    steps:
+      - run: echo "World"
+
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
   welcome:
-    # Run the welcome/run job in its own container
+    # Run the 3 jobs
     jobs:
       - welcome/run
+      - print_hello
+      - print_world:
+          # Add a prerequisite step for print_world
+          requires: [print_hello]

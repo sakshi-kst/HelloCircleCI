@@ -14,7 +14,6 @@ commands:
 
 # Create a list of jobs
 jobs:
-  # Name the first job "print_hello"
   print_hello:
     # Use docker image for Node.js
     docker:
@@ -23,7 +22,6 @@ jobs:
     steps:
       - run: echo "Hello"
   
-  # Name the second job "print_name"
   print_name:
     # Use docker image for Node.js
     docker:
@@ -32,12 +30,10 @@ jobs:
     steps:
       - run: echo "Hello" $myName
       
-  # Name the third job "print_name"
   save_output:
     # Use docker image for Node.js
     docker:
       - image: circleci/node:13.8.0
-    
     # Add step to save Hello Sakshi in a txt file
     steps:
       - run: echo "Hello Sakshi" > /tmp/output.txt
@@ -47,12 +43,10 @@ jobs:
           paths:
             - output.txt
   
-  # Name the fourth job "print_output"
   print_output:
     # Use docker image for Node.js
     docker:
       - image: circleci/node:13.8.0
-      
     steps:
       # Attach workspace to fetch txt file
       - attach_workspace:
@@ -60,15 +54,31 @@ jobs:
       # Print contents of txt file
       - run: cat /tmp/output.txt
       
-  # Name the fifth job "print_workflow_id"
   print_workflow_id:
     # Use docker image for Node.js
     docker:
       - image: circleci/node:13.8.0
-      
     steps:
       # Call the command printWorkflowID
       - printworkflowid
+      
+  failing_job:
+    # Use docker image for Node.js
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      # Return exit code 1 to fail build step
+      - run: exit 1
+      
+  on_fail_job:
+    # Use docker image for Node.js
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      # Run this step even if previous steps failed
+      - run:
+        command: echo "It ran :)"
+        when: on_fail      
 
 # Orchestrate or schedule a set of jobs
 workflows:
@@ -84,3 +94,5 @@ workflows:
           # Add a prerequisite step for print_output
           requires: [save_output]
       - print_workflow_id
+      - failing_job
+      - on_fail_job

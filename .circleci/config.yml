@@ -24,7 +24,7 @@ jobs:
       - image: circleci/node:13.8.0
     # Add step to print Hello and fetch my name from env variable
     steps:
-      - run: echo "Hello" + $myName
+      - run: echo "Hello" $myName
 
 # Orchestrate or schedule a set of jobs
 workflows:

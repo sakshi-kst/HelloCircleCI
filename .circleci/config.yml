@@ -52,7 +52,7 @@ jobs:
       - attach_workspace:
           at: /tmp
       # Print contents of txt file
-      - run: cat output.txt
+      - run: cat /tmp/output.txt
 
 # Orchestrate or schedule a set of jobs
 workflows:

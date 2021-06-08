@@ -24,7 +24,7 @@ jobs:
       - image: circleci/node:13.8.0
     # Add step to print World
     steps:
-      - run: echo "World"
+      - run: echo $myName
 
 # Orchestrate or schedule a set of jobs
 workflows:

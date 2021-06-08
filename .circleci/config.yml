@@ -37,8 +37,9 @@ jobs:
       - run: echo "Hello Sakshi" > output.txt
       # Persist txt file to workspace
       - persist_to_workspace:
-        root: /tmp/workspace
-        paths: output.txt
+          root: /
+          paths:
+            - output.txt
   
   # Name the fourth job "print_output"
   print_output:
@@ -49,7 +50,7 @@ jobs:
     steps:
       # Attach workspace to fetch txt file
       - attach_workspace:
-        at: /tmp/workspace
+          at: /
       # Print contents of txt file
       - run: cat output.txt
 

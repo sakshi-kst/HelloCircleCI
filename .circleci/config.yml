@@ -69,12 +69,6 @@ jobs:
     steps:
       # Return exit code 1 to fail build step
       - run: exit 1
-      
-  on_fail_job:
-    # Use docker image for Node.js
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
       # Run this step even if previous steps failed
       - run:
           command: echo "It ran :)"
@@ -95,6 +89,3 @@ workflows:
           requires: [save_output]
       - print_workflow_id
       - failing_job
-      - on_fail_job:
-          # Add a prerequisite step for on_fail_job
-          requires: [failing_job]

@@ -17,14 +17,20 @@ jobs:
     steps:
       - run: echo "Hello"
   
-  # Name the second job "print_world"
-  print_world:
+  # Name the second job "print_name"
+  print_name:
     # Use docker image for Node.js
     docker:
       - image: circleci/node:13.8.0
     # Add step to print World
     steps:
-      - run: echo $myName
+      # Set environment variable MY_NAME
+      - run: echo 'export MY_NAME="Sakshi Kulshreshtha"' >> $BASH_ENV |
+      # Project level env variable is redacted and hidden
+      echo $myName |
+      # Env variable not declared in Project / Context level in CircleCI is not hidden.
+      # Also note that env variable can be with or without curly braces {}
+      echo ${MY_NAME}
 
 # Orchestrate or schedule a set of jobs
 workflows:

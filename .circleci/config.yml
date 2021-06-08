@@ -6,6 +6,12 @@ orbs:
   # Declare a dependency on the welcome-orb
   welcome: circleci/welcome-orb@0.4.1
 
+# Create a command to print Circle CI Workflow ID
+commands:
+  printWorkflowID:
+    steps:
+      -run: echo $CIRCLE_WORKFLOW_ID
+
 # Create a list of jobs
 jobs:
   # Name the first job "print_hello"
@@ -53,6 +59,16 @@ jobs:
           at: /tmp
       # Print contents of txt file
       - run: cat /tmp/output.txt
+      
+  # Name the fifth job "print_workflow_id"
+  print_workflow_id:
+    # Use docker image for Node.js
+    docker:
+      - image: circleci/node:13.8.0
+      
+    steps:
+      # Call the command printWorkflowID
+      - printWorkflowID
 
 # Orchestrate or schedule a set of jobs
 workflows:
@@ -67,3 +83,4 @@ workflows:
       - print_output:
           # Add a prerequisite step for print_output
           requires: [save_output]
+      - print_workflow_id

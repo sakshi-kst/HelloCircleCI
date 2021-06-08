@@ -77,8 +77,8 @@ jobs:
     steps:
       # Run this step even if previous steps failed
       - run:
-        command: echo "It ran :)"
-        when: on_fail      
+          command: echo "It ran :)"
+          when: on_fail      
 
 # Orchestrate or schedule a set of jobs
 workflows:
@@ -95,4 +95,6 @@ workflows:
           requires: [save_output]
       - print_workflow_id
       - failing_job
-      - on_fail_job
+      - on_fail_job:
+          # Add a prerequisite step for on_fail_job
+          requires: [failing_job]

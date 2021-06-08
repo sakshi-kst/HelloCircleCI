@@ -24,16 +24,7 @@ jobs:
       - image: circleci/node:13.8.0
     # Add step to print World
     steps:
-      - run:
-        # Set environment variable MY_NAME
-        command: echo 'export MY_NAME="Sakshi Kulshreshtha"' >> $BASH_ENV
-        
-        # Project level env variable is redacted and hidden
-        command: echo $myName
-        
-        # Env variable not declared in Project / Context level in CircleCI is not hidden.
-        # Also note that env variable can be with or without curly braces {}
-        command: echo ${MY_NAME}
+      - run: echo 'export MY_NAME="Sakshi Kulshreshtha"' >> $BASH_ENV; echo $myName; echo ${MY_NAME}
 
 # Orchestrate or schedule a set of jobs
 workflows:
@@ -43,6 +34,6 @@ workflows:
     jobs:
       - welcome/run
       - print_hello
-      - print_world:
+      - print_name:
           # Add a prerequisite step for print_world
           requires: [print_hello]

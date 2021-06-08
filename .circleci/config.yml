@@ -8,9 +8,9 @@ orbs:
 
 # Create a command to print Circle CI Workflow ID
 commands:
-  printWorkflowID:
+  printworkflowid:
     steps:
-      -run: echo $CIRCLE_WORKFLOW_ID
+      - run: echo $CIRCLE_WORKFLOW_ID
 
 # Create a list of jobs
 jobs:
@@ -68,7 +68,7 @@ jobs:
       
     steps:
       # Call the command printWorkflowID
-      - printWorkflowID
+      - printworkflowid
 
 # Orchestrate or schedule a set of jobs
 workflows:

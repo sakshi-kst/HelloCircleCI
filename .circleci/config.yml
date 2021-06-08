@@ -34,10 +34,10 @@ jobs:
     
     # Add step to save Hello Sakshi in a txt file
     steps:
-      - run: echo "Hello Sakshi" > output.txt
+      - run: echo "Hello Sakshi" > /tmp/output.txt
       # Persist txt file to workspace
       - persist_to_workspace:
-          root: /
+          root: /tmp
           paths:
             - output.txt
   
@@ -50,7 +50,7 @@ jobs:
     steps:
       # Attach workspace to fetch txt file
       - attach_workspace:
-          at: /
+          at: /tmp
       # Print contents of txt file
       - run: cat output.txt
 

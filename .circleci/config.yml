@@ -25,15 +25,46 @@ jobs:
     # Add step to print Hello and fetch my name from env variable
     steps:
       - run: echo "Hello" $myName
+      
+  # Name the third job "print_name"
+  save_output:
+    # Use docker image for Node.js
+    docker:
+      - image: circleci/node:13.8.0
+    
+    # Add step to save Hello Sakshi in a txt file
+    steps:
+      - run: echo "Hello Sakshi" > output.txt
+    
+    # Persist txt file to workspace
+    - persist_to_workspace:
+      root: /tmp/workspace
+      paths: output.txt
+  
+  # Name the fourth job "print_output"
+  print_output:
+    # Use docker image for Node.js
+    docker:
+      - image: circleci/node:13.8.0
+    
+    # Attach workspace to fetch txt file
+    - attach_workspace:
+      at: /tmp/workspace
+      
+    # Add step to print contents of txt file
+    steps:
+      - run: cat output.txt
 
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
   welcome:
-    # Run the 3 jobs
+    # Run the jobs
     jobs:
       - welcome/run
       - print_hello
-      - print_name:
-          # Add a prerequisite step for print_name
-          requires: [print_hello]
+      - print_name
+      - save_output
+      - print_output:
+          # Add a prerequisite step for print_output
+          requires: [save_output]

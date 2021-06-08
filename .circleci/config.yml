@@ -22,9 +22,9 @@ jobs:
     # Use docker image for Node.js
     docker:
       - image: circleci/node:13.8.0
-    # Add step to print World
+    # Add step to print Hello and fetch my name from env variable
     steps:
-      - run: echo 'export MY_NAME="Sakshi Kulshreshtha"' >> $BASH_ENV; echo $myName; echo ${MY_NAME}
+      - run: echo "Hello" + $myName
 
 # Orchestrate or schedule a set of jobs
 workflows:
@@ -35,5 +35,5 @@ workflows:
       - welcome/run
       - print_hello
       - print_name:
-          # Add a prerequisite step for print_world
+          # Add a prerequisite step for print_name
           requires: [print_hello]
